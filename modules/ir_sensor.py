@@ -82,7 +82,7 @@ def read_correction(port, register, client=None, max_retries=20, retry_delay=0.0
 
             # Validate the result, if it's valid, return it
             if register == 0x021B:
-                if result is not None and 700 <= result <= 1000:
+                if result is not None and 700 <= result <= 1500:
                     return result
             elif register == 0x021C and (result > 2000 or result < 50):
                 if result is not None:
