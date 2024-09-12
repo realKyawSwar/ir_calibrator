@@ -50,7 +50,7 @@ def wait_until_temp_reached(controller, set_temp):
         elif temp_diff > 2:
             wait_time = 45  # Wait for 30 seconds if the difference is moderate
         elif 0.2 < temp_diff < 1:
-            wait_time = 15  # Wait for 30 seconds if the difference is moderate
+            wait_time = 25  # Wait for 30 seconds if the difference is moderate
         else:
             wait_time = 10  # Wait for 10 seconds if the difference is small
 
