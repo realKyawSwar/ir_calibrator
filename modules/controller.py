@@ -1,6 +1,6 @@
 from time import sleep
 from modules.black_box import read_temp, set_temp
-from modules import ir_sensor
+from modules import ir_sensor, notify
 # import ir_sensor
 import numpy as np
 import time
@@ -27,17 +27,52 @@ def timer_function(func):
     return wrapper
 
 
+# def wait_until_temp_reached(controller, set_temp):
+#     while True:
+#         current_temp, _ = controller.get_temperature()
+#         if current_temp == set_temp:
+#             break
+#         print(f"Waiting for current temperature to reach {set_temp}°C...")
+#         sleep(60)
 @timer_function
 def wait_until_temp_reached(controller, set_temp):
     while True:
         current_temp, _ = controller.get_temperature()
         if current_temp == set_temp:
             break
-        print(f"Waiting for current temperature to reach {set_temp}°C...")
-        sleep(60)
+
+        # Calculate the temperature difference
+        temp_diff = abs(current_temp - set_temp)
+
+        # Adjust sleep time based on the temperature difference
+        if temp_diff > 3:
+            wait_time = 60  # Wait for 60 seconds if the difference is large
+        elif temp_diff > 2:
+            wait_time = 45  # Wait for 30 seconds if the difference is moderate
+        elif 0.2 < temp_diff < 1:
+            wait_time = 15  # Wait for 30 seconds if the difference is moderate
+        else:
+            wait_time = 10  # Wait for 10 seconds if the difference is small
+
+        print(f"Waiting for current temperature ({current_temp}°C) to reach {set_temp}°C... Sleeping for {wait_time} seconds.")
+        sleep(wait_time)
 
 
-def get_order(controller, listx=list(range(280, 345, 5))):
+
+def send_slope(data):
+
+    data = f"setting slope {data}.\n"
+    try:
+        notify.trigger_notify(data, "8208595182569485")
+        # test
+        # trigger_notify(table, "5677283929052213")
+    except Exception as err:
+        # logs.logError(f"{err} at workchat",
+        #               includeErrorLine=True)
+        print(f"send slope error: {err}")
+
+
+def get_order(controller, listx=list(range(300, 306, 1))):
     # Find the minimum and maximum values of the list
     current_temp, _ = controller.get_temperature()
     distance_to_min = abs(current_temp - min(listx))
@@ -83,13 +118,22 @@ def slope_routine(controller, bb_port, temp_port, set_port):
     while not 0.995 <= slope <= 1.005:
         # Calculate the sensor correction value
         sesp = round(span_input * 1000)
-        ir_sensor.write_correction(set_port, 0x021B, value=sesp)
+        delay = 0.08
+        span = ir_sensor.read_correction(set_port, 0x021B)
+        while sesp != span:
+            sleep(delay)
+            ir_sensor.write_correction(set_port, 0x021B, value=sesp)
+            sleep(delay)
+            span = ir_sensor.read_correction(set_port, 0x021B)
+            delay += 0.1
+
         # Update the slope and intercept after adjustment
         slope, intercept = get_slope(controller, bb_port, temp_port, set_port)
         # Log the new values in the dictionary
         dicty[f'try_{tries}'] = (slope, intercept)
         # Update span_input for the next iteration
         span_input = (sesp/1000) - (slope - 1)
+        send_slope(span_input)
         # Increment tries counter
         tries += 1
     print("Slope is now within the range:", slope)
@@ -121,7 +165,14 @@ def intercept_routine(controller, bb_port, temp_port, set_port, slope, intercept
             # Calculate the sensor correction value
             # seof = round(offset_input * 1000)
             unsigned_offset = round(to_unsigned(offset_input))
-            ir_sensor.write_correction(set_port, 0x021C, value=unsigned_offset)
+            delay = 0.08
+            offset = ir_sensor.read_correction(set_port, 0x021C)
+            while unsigned_offset != offset:
+                sleep(delay)
+                ir_sensor.write_correction(set_port, 0x021C, value=unsigned_offset)
+                sleep(delay)
+                offset = ir_sensor.read_correction(set_port, 0x021C)
+                delay += 0.1
 
         sleep(5)
 
@@ -130,7 +181,14 @@ def intercept_routine(controller, bb_port, temp_port, set_port, slope, intercept
             dummy_sp = present_slope / 1000
             span_input = dummy_sp - (slope - 1)
             sesp = round(span_input * 1000)
-            ir_sensor.write_correction(set_port, 0x021B, value=sesp)
+            delay = 0.08
+            span = ir_sensor.read_correction(set_port, 0x021B)
+            while sesp != span:
+                sleep(delay)
+                ir_sensor.write_correction(set_port, 0x021B, value=sesp)
+                sleep(delay)
+                span = ir_sensor.read_correction(set_port, 0x021B)
+                delay += 0.1
 
         # Update the slope and intercept after adjustment
         slope, intercept = get_slope(controller, bb_port, temp_port, set_port)
