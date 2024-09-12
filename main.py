@@ -8,16 +8,21 @@ def initialize_ir(temp_port, set_port):
     sleep(0.08)
     sleep(1)
     zero = ir_sensor.read_correction(set_port, 0x021C)
-    if span != 1000 and zero != 0:
+    delay = 0.08
+    while span != 1000:
         # sleep(0.1)
         ir_sensor.write_correction(set_port, 0x021B, value=1000)
-        sleep(0.08)
-        ir_sensor.write_correction(set_port, 0x021C, value=0)
-        sleep(0.08)
+        sleep(delay)
         span = ir_sensor.read_correction(set_port, 0x021B)
-        sleep(0.08)
+        sleep(delay)
+        delay += 0.1
+    delay = 0.08
+    while zero != 0:
+        ir_sensor.write_correction(set_port, 0x021C, value=0)
+        sleep(delay)
         zero = ir_sensor.read_correction(set_port, 0x021C)
-        print(span, zero)
+        sleep(delay)
+    print(span, zero)
     original_emiss = ir_sensor.read_temp(temp_port, 0x0103)
     sleep(4)
     if original_emiss != 950:
@@ -72,12 +77,6 @@ if __name__ == "__main__":
 
     finally:
         logs.closeLogger()
-    control.set_temperature(30)
+    control.set_temperature(300)
 
     # print(sesp)
-
-
-
-
-
-
