@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TemperatureControl</class>
+ <widget class="QWidget" name="TemperatureControl">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Temperature Control</string>
+  </property>
+  <property name="styleSheet">
+   <string>
+    QWidget {
+        background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #D1D3D4, stop:1 #939598);
+    }
+    QLabel {
+        color: #1E2E3E;
+        font-size: 14pt;
+    }
+    QSlider::groove:horizontal {
+        height: 10px;
+        background-color: #263A4E;
+    }
+    QSlider::handle:horizontal {
+        background-color: #54D1FF;
+        border: 2px solid #008AFF;
+        width: 20px;
+    }
+    QPushButton {
+        background-color: #008AFF;
+        color: white;
+        border: 1px solid #263A4E;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    QPushButton:hover {
+        background-color: #54D1FF;
+    }
+   </string>
+  </property>
+
+  <!-- Slider for temperature control -->
+  <widget class="QSlider" name="sliderTemperature">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>100</y>
+     <width>200</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
+  </widget>
+
+  <!-- Label to display current temperature -->
+  <widget class="QLabel" name="labelTemperature">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>150</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Temperature: 50°C</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+
+  <!-- Button for setting temperature -->
+  <widget class="QPushButton" name="buttonSetTemp">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>200</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Set Temperature</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
