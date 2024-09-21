@@ -84,7 +84,7 @@ def read_correction(port, register, client=None, max_retries=20, retry_delay=0.0
             if register == 0x021B:
                 if result is not None and 700 <= result <= 1500:
                     return result
-            elif register == 0x021C and (result > 2000 or result < 50):
+            elif register == 0x021C and (result > 2000 or result < 99):
                 if result is not None:
                     return result
             else:
@@ -111,7 +111,7 @@ def read_correction(port, register, client=None, max_retries=20, retry_delay=0.0
 
 
 @connect(baud=9600)
-def write_correction(port, register, value, client=None, max_retries=5, retry_delay=0.08):
+def write_correction(port, register, value, client=None, max_retries=10, retry_delay=0.08):
     retries = 0
     success = False
 
@@ -150,32 +150,3 @@ if __name__ == '__main__':
     time.sleep(0.08)
     read_correction(set_port, 0x021C)
 
-
-# @connect(baud=9600)
-# def read_correction(port, register, client=None, max_retries=5, retry_delay=0.1):
-#     try:
-#         # client = None
-#         # Read holding register (function code 03) from slave address 0x02
-#         response = client.execute(0x01, cst.READ_HOLDING_REGISTERS, register, 1)
-#         result = response[0]
-#         # print(f"Temperature: {temperature}°C")
-#         # print(f"result: {result}")
-#     except modbus.ModbusError as e:
-#         print(f"Modbus error: {e}")
-#         result = None
-#     except Exception as e:
-#         print(f"Error: {e}")
-#         result = None
-#     return result
-
-
-# @connect(baud=9600)
-# def write_correction(port, register, value, client=None):
-#     try:
-#         # Write single holding register (function code 06) to slave address 0x01
-#         client.execute(0x01, cst.WRITE_SINGLE_REGISTER, register, output_value=value)
-#         print(f"Successfully wrote {value} to register {hex(register)}")
-#     except modbus.ModbusError as e:
-#         print(f"Modbus error: {e}")
-#     except Exception as e:
-#         print(f"Error: {e}")
