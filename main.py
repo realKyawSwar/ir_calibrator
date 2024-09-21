@@ -1,7 +1,7 @@
 from time import sleep
 import random
 from modules import ir_sensor, controller, notify, logs
-# from modules import controller
+
 
 def initialize_ir(temp_port, set_port):
     span = ir_sensor.read_correction(set_port, 0x021B)
@@ -44,13 +44,9 @@ def send_msg(data, serial_number, sesp, signed_value):
     for key, values in data.items():
         table += f"{key:<10} | {values[0]:<7} | {values[1]:<7}\n"
     table += f"SESP is {sesp} and SEOF is {signed_value}"
-    # Print or send the table string as a message
-    # print(table)
     logs.logInfo(table)
     try:
         notify.trigger_notify(table, "8208595182569485")
-        # test
-        # trigger_notify(table, "5677283929052213")
     except Exception as err:
         logs.logError(f"{err} at workchat",
                       includeErrorLine=True)
@@ -60,16 +56,45 @@ if __name__ == "__main__":
     bb_port = "COM14"
     temp_port = "COM4"
     set_port = "COM13"
-    logs.initLogger("auto_ir")
     control = controller.TemperatureController(bb_port)
+    logs.initLogger("auto_ir")
+
     try:
-        original_emiss = initialize_ir(temp_port, set_port)
-        slopey, inty, dicty = controller.slope_routine(control, bb_port, temp_port, set_port)
-        data= controller.intercept_routine(control, bb_port, temp_port, set_port, slopey, inty, dicty)
-        seof = ir_sensor.read_correction(set_port, 0x021C)
+        # original_emiss = initialize_ir(temp_port, set_port)
+        # slopey, inty, dicty, dfs = controller.slope_routine(control, temp_port, set_port)
+
+        dicty = {
+                 'initial': (1.0453846153846156, -6.907692307692686),
+                 'try_1': (1.0307692307692304, -7.500000000000079),
+                 'try_2': (1.0198901098901079, -7.712087912087349),
+                 'try_3': (1.005824175824174, -5.751648351647952),
+                 'try_4': (1.0037362637362635, -5.865934065934165)
+                 }
+        slopey = 1.0037362637362635
+        inty = -5.865934065934165
+        dfs = []
+
+        data, df_list = controller.intercept_routine(control, temp_port, set_port, 
+                                                     slopey, inty, dicty, dfs)
+        final_df = pd.concat(df_list, ignore_index=True)
+        # Saving the final concatenated DataFrame to a CSV file
+        final_df.to_csv('concatenated_dataframe.csv', index=False)
+
+        seof = None
+        delay = 0.08
+        while not seof:
+            seof = ir_sensor.read_correction(set_port, 0x021C)
+            sleep(delay)
+            delay += 0.1
+
         signed_value = controller.to_signed(seof)
         sleep(5)
-        sesp = round(ir_sensor.read_correction(set_port, 0x021B) / 1000)
+        delay = 0.08
+        sesp = None
+        while not sesp:
+            sesp = round(ir_sensor.read_correction(set_port, 0x021B) / 1000)
+            sleep(delay)
+            delay += 0.1
         serial_number = 'test'
         send_msg(data, serial_number, sesp, signed_value)
     except Exception as e:
@@ -77,6 +102,5 @@ if __name__ == "__main__":
 
     finally:
         logs.closeLogger()
-    control.set_temperature(300)
 
-    # print(sesp)
+    control.set_temperature(30)
