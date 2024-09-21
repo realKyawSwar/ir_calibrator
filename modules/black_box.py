@@ -1,4 +1,4 @@
-
+from time import sleep
 import serial
 
 
@@ -98,10 +98,12 @@ def set_temp(com, number):
     data = int(hex(temp), 16)
     write_cmd = construct_command(cmd0, data_address, data)
     reply = send_and_receive(com, write_cmd).decode()
-    if reply == write_cmd:
-        print("success")
-    else:
-        print("failed")
+    while reply != write_cmd:
+        reply = send_and_receive(com, write_cmd).decode()
+        print(reply)
+        sleep(1)
+        print("failed to set blackbox. retrying")
+    print("success")
 
 
 if __name__ == '__main__':
