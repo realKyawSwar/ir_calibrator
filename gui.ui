@@ -6,15 +6,42 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>485</height>
+    <width>625</width>
+    <height>553</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Auto IR Calibrator</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(195, 176, 145, 255), stop:1 rgba(255, 255, 255, 255));</string>
+   <string notr="true">
+    QWidget {
+        background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #D1D3D4, stop:1 #939598);
+    }
+    QLabel {
+        color: #1E2E3E;
+        font-size: 12pt;
+    }
+    QSlider::groove:horizontal {
+        height: 10px;
+        background-color: #263A4E;
+    }
+    QSlider::handle:horizontal {
+        background-color: #54D1FF;
+        border: 2px solid #008AFF;
+        width: 20px;
+    }
+    QPushButton {
+        background-color: #008AFF;
+        color: white;
+        border: 1px solid #263A4E;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    QPushButton:hover {
+        background-color: #54D1FF;
+    }
+   </string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -24,6 +51,13 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="Line" name="line_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
@@ -36,19 +70,6 @@
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox_5">
-              <property name="styleSheet">
-               <string notr="true">background-color: None;</string>
-              </property>
-              <property name="minimum">
-               <number>2</number>
-              </property>
-              <property name="maximum">
-               <number>105</number>
               </property>
              </widget>
             </item>
@@ -73,22 +94,6 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_6">
-              <property name="styleSheet">
-               <string notr="true">background-color: None;</string>
-              </property>
-              <property name="minimum">
-               <number>2</number>
-              </property>
-              <property name="maximum">
-               <number>105</number>
-              </property>
-              <property name="value">
-               <number>3</number>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="Line" name="line_3">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -108,10 +113,86 @@
               </property>
              </widget>
             </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QSpinBox" name="spinBox_5">
+              <property name="styleSheet">
+               <string notr="true">background-color: None;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="minimum">
+               <number>2</number>
+              </property>
+              <property name="maximum">
+               <number>105</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="bb_btn">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Connect</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Line" name="line_4">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBox_6">
+              <property name="styleSheet">
+               <string notr="true">background-color: None;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="minimum">
+               <number>2</number>
+              </property>
+              <property name="maximum">
+               <number>105</number>
+              </property>
+              <property name="value">
+               <number>3</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="ir232_btn">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Connect</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Line" name="line_5">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QSpinBox" name="spinBox_7">
               <property name="styleSheet">
                <string notr="true">background-color: None;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
               </property>
               <property name="minimum">
                <number>2</number>
@@ -124,44 +205,36 @@
               </property>
              </widget>
             </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QPushButton" name="bb_btn">
+             <widget class="QPushButton" name="ir485_btn">
               <property name="styleSheet">
-               <string notr="true">background-color: None;</string>
+               <string notr="true"/>
               </property>
               <property name="text">
                <string>Connect</string>
               </property>
              </widget>
             </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
             <item>
-             <widget class="QLabel" name="label_4">
+             <widget class="QLabel" name="label_6">
               <property name="styleSheet">
                <string notr="true">background-color: None;</string>
               </property>
               <property name="text">
                <string/>
               </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="Line" name="line_4">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="ir232_btn">
-              <property name="styleSheet">
-               <string notr="true">background-color: None;</string>
-              </property>
-              <property name="text">
-               <string>Connect</string>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -173,36 +246,41 @@
               <property name="text">
                <string/>
               </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="Line" name="line_5">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="ir485_btn">
-              <property name="styleSheet">
-               <string notr="true">background-color: None;</string>
-              </property>
-              <property name="text">
-               <string>Connect</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_6">
+             <widget class="QLabel" name="label_4">
               <property name="styleSheet">
                <string notr="true">background-color: None;</string>
               </property>
               <property name="text">
                <string/>
               </property>
+              <property name="textFormat">
+               <enum>Qt::AutoText</enum>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
              </widget>
             </item>
            </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item>
            <widget class="QGroupBox" name="groupBox">
@@ -222,6 +300,9 @@
                    <property name="text">
                     <string>Min</string>
                    </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
                   </widget>
                  </item>
                  <item>
@@ -229,12 +310,31 @@
                    <property name="text">
                     <string>Max</string>
                    </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
                   </widget>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_9">
                    <property name="text">
                     <string>Step</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_10">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: None;</string>
+                   </property>
+                   <property name="text">
+                    <string>Cool Down Temp</string>
+                   </property>
+                   <property name="textInteractionFlags">
+                    <set>Qt::LinksAccessibleByMouse</set>
                    </property>
                   </widget>
                  </item>
@@ -247,8 +347,11 @@
                    <property name="styleSheet">
                     <string notr="true">background-color: None;</string>
                    </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
                    <property name="minimum">
-                    <number>280</number>
+                    <number>0</number>
                    </property>
                   </widget>
                  </item>
@@ -256,6 +359,9 @@
                   <widget class="QSpinBox" name="spinBox_2">
                    <property name="styleSheet">
                     <string notr="true">background-color: None;</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
                    </property>
                    <property name="minimum">
                     <number>345</number>
@@ -270,11 +376,33 @@
                    <property name="styleSheet">
                     <string notr="true">background-color: None;</string>
                    </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
                    <property name="minimum">
                     <number>5</number>
                    </property>
                    <property name="maximum">
                     <number>20</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="spinBox_4">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: None;</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="minimum">
+                    <number>30</number>
+                   </property>
+                   <property name="maximum">
+                    <number>300</number>
+                   </property>
+                   <property name="singleStep">
+                    <number>10</number>
                    </property>
                   </widget>
                  </item>
@@ -284,6 +412,19 @@
              </item>
             </layout>
            </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item>
            <widget class="QGroupBox" name="groupBox_2">
@@ -298,6 +439,12 @@
               <layout class="QHBoxLayout" name="horizontalLayout_8">
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <property name="leftMargin">
+                  <number>40</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>40</number>
+                 </property>
                  <item>
                   <widget class="QCheckBox" name="csv_check">
                    <property name="layoutDirection">
@@ -323,49 +470,9 @@
                  </item>
                 </layout>
                </item>
-               <item>
-                <layout class="QVBoxLayout" name="verticalLayout_6">
-                 <item>
-                  <widget class="QLabel" name="label_10">
-                   <property name="styleSheet">
-                    <string notr="true">background-color: None;</string>
-                   </property>
-                   <property name="text">
-                    <string>Cool Down Temperature</string>
-                   </property>
-                   <property name="textInteractionFlags">
-                    <set>Qt::LinksAccessibleByMouse</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="spinBox_4">
-                   <property name="styleSheet">
-                    <string notr="true">background-color: None;</string>
-                   </property>
-                   <property name="minimum">
-                    <number>30</number>
-                   </property>
-                   <property name="maximum">
-                    <number>300</number>
-                   </property>
-                   <property name="singleStep">
-                    <number>10</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
               </layout>
              </item>
             </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
            </widget>
           </item>
          </layout>
@@ -373,55 +480,17 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_9"/>
         </item>
-        <item>
-         <widget class="QLabel" name="label_11">
-          <property name="maximumSize">
-           <size>
-            <width>150</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: None;</string>
-          </property>
-          <property name="text">
-           <string>Serial Number</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTextEdit" name="textEdit">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>150</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: None;</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="calib_btn">
-          <property name="styleSheet">
-           <string notr="true">background-color: None;</string>
-          </property>
-          <property name="text">
-           <string>Calibrate</string>
-          </property>
-         </widget>
-        </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="calib_btn">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Calibrate</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QGroupBox" name="groupBox_3">
@@ -442,16 +511,20 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_12">
-             <property name="maximumSize">
-              <size>
-               <width>800</width>
-               <height>200</height>
-              </size>
+            <widget class="QScrollArea" name="scrollArea">
+             <property name="widgetResizable">
+              <bool>true</bool>
              </property>
-             <property name="text">
-              <string/>
-             </property>
+             <widget class="QWidget" name="scrollAreaWidgetContents">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>581</width>
+                <height>115</height>
+               </rect>
+              </property>
+             </widget>
             </widget>
            </item>
           </layout>
@@ -460,6 +533,13 @@
        </widget>
       </item>
      </layout>
+    </item>
+    <item>
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
